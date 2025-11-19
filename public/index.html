@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>3IReborn Video Generator</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background: #071024;
+    color: #e6eef8;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 20px auto;
+    padding: 16px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+label {
+    font-weight: 600;
+}
+
+input, textarea, select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.07);
+    background: rgba(255,255,255,0.05);
+    color: #e6eef8;
+    margin-top: 6px;
+    margin-bottom: 12px;
+}
+
+button {
+    padding: 10px 16px;
+    border-radius: 8px;
+    border: none;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.btn-primary {
+    background: #06b6d4;
+    color: #041024;
+}
+
+.btn-outline {
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.1);
+    color: #e6eef8;
+}
+
+video {
+    width: 100%;
+    border-radius: 10px;
+    background: #000;
+    margin-top: 12px;
+}
+
+.small {
+    color: #9aa5b1;
+    font-size: 13px;
+}
+
+@media(max-width: 768px) {
+    .flex {
+        flex-direction: column;
+    }
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+    <div class="header">
+        <h2>3IReborn Video Generator</h2>
+        <p class="small">Powered by FAL + Pika Proxy</p>
+    </div>
+
+    <div class="flex" style="display:flex; gap:16px; flex-wrap:wrap;">
+        <!-- LEFT SIDE -->
+        <div style="flex:1; min-width:280px;">
+
+            <label>Pilih Mode</label>
+            <select id="mode">
+                <option value="3ireborn">3IReborn Promo</option>
+                <option value="nasibakar">Nasi Bakar Mama Asha</option>
+                <option value="pakd">PakD Sugiarto Intro</option>
+            </select>
+
+            <label>Style Video</label>
+            <select id="style">
+                <option value="cinematic">Cinematic</option>
+                <option value="clean">Clean</option>
+                <option value="fun">Fun</option>
+            </select>
+
+            <label>Durasi (detik)</label>
+            <input type="number" id="duration" min="3" max="30" value="8"/>
+
+            <label>Prompt Video</label>
+            <textarea id="prompt" rows="5" placeholder="Contoh: Buat video promo 3IReborn durasi 8 detik, style cinematic, tone energetic."></textarea>
+
+            <label>Voice (opsional)</label>
+            <input id="voice" placeholder="Example: male_en" />
+
+            <button class="btn-primary" id="generate">Generate Video</button>
+            <button class="btn-outline" id="reset">Reset</button>
+
+            <p class="small" id="status">Status: idle</p>
+
+        </div>
+
+        <!-- RIGHT SIDE -->
+        <div style="flex:1; min-width:280px;">
+            <label>Preview Video</label>
+            <video id="player" controls></video>
+
+            <button class="btn-outline" id="download">Download Video</button>
+        </div>
+    </div>
+</div>
+
+<script>
+const SERVER = ""; // kosong = same origin (Railway)
+const player = document.getElementById("player");
+const statusBox = document.getElementById("status");
+
+let lastUrl = null;
+
+function setStatus(msg) {
+    statusBox.textContent = "Status: " + msg;
+}
+
+document.getElementById("generate").addEventListener("click", async () => {
+    const prompt = document.getElementById("prompt").value.trim();
+    const style = document.getElementById("style").value;
+    const duration = Number(document.getElementById("duration").value || 8);
+    const mode = document.getElementById("mode").value;
+    const voice = document.getElementById("voice").value.trim();
+
+    if (!prompt) {
+        alert("Isi prompt dulu ya beb 🙂");
+        return;
+    }
+
+    setStatus("Mengirim permintaan ke server...");
+
+    try {
+        const resp = await fetch((SERVER || "") + "/api/gen-video", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                prompt,
+                style,
+                duration,
+                mode,
+                voice,
+                aspect: "16:9"
+            })
+        });
+
+        if (!resp.ok) {
+            const errText = await resp.text().catch(() => "");
+            throw new Error("Server error " + resp.status + ": " + errText);
+        }
+
+        // If JSON
+        const ct = resp.headers.get("content-type") || "";
+        if (ct.includes("application/json")) {
+            const j = await resp.json();
+            if (j.video_url) {
+                player.src = j.video_url;
+                setStatus("Video URL diterima");
+                return;
+            } else {
+                console.log(j);
+                setStatus("Response JSON dari provider");
+                return;
+            }
+        }
+
+        // If binary / stream
+        setStatus("Menerima video...");
+        const blob = await resp.blob();
+
+        if (lastUrl) URL.revokeObjectURL(lastUrl);
+        lastUrl = URL.createObjectURL(blob);
+
+        player.src = lastUrl;
+        player.play().catch(() => {});
+        setStatus("Video siap diputar!");
+
+    } catch (err) {
+        console.error(err);
+        alert("Error: " + err.message);
+        setStatus("error: " + err.message);
+    }
+});
+
+document.getElementById("download").addEventListener("click", () => {
+    if (!player.src) return alert("Belum ada video.");
+    const a = document.createElement("a");
+    a.href = player.src;
+    a.download = "3ireborn-video-" + Date.now() + ".webm";
+    a.click();
+});
+
+document.getElementById("reset").addEventListener("click", () => {
+    if (lastUrl) URL.revokeObjectURL(lastUrl);
+    player.src = "";
+    setStatus("idle");
+});
+</script>
+
+</body>
+          </html>
