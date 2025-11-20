@@ -143,6 +143,10 @@
         document.getElementById("videoResult").innerHTML = "";
     }
 </script>
-
+<script>
+setInterval(() => {
+  fetch("/ping").catch(() => {});
+}, 25000);
+</script>
 </body>
 </html>
