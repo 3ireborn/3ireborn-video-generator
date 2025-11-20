@@ -1,7 +1,7 @@
 {
   "name": "3ireborn-video-generator",
   "version": "1.0.0",
-  "description": "Fixed for Railway",
+  "description": "Fixed buat cayangku tersayang 🥰",
   "main": "index.js",
   "type": "commonjs",
   "engines": {
@@ -13,12 +13,12 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.18.2",
-    "node-fetch": "2.6.7"
+    "node-fetch": "2.6.7",
+    "data-uri-to-buffer": "^5.0.1",
+    "fetch-blob": "^4.0.0",
+    "formdata-polyfill": "^4.0.10"
   },
   "overrides": {
-    "node-fetch": "2.6.7",
-    "data-uri-to-buffer": false,
-    "fetch-blob": false,
-    "formdata-polyfill": false
+    "node-fetch": "2.6.7"
   }
 }
