@@ -1,15 +1,27 @@
 {
   "name": "3ireborn-video-generator",
   "version": "1.0.0",
-  "main": "server.js",
-  "type": "module",
+  "description": "Video generator API with Express",
+  "main": "index.js",
+  "type": "commonjs",
+  "engines": {
+    "node": ">=18.x"
+  },
   "scripts": {
-    "start": "node server.js",
-    "build": "echo 'no build step'"
+    "start": "node index.js"
   },
   "dependencies": {
-    "express": "^4.18.2",
     "cors": "^2.8.5",
-    "node-fetch": "^3.3.2"
+    "express": "^4.18.2",
+    "node-fetch": "2.6.7"
+  },
+  "overrides": {
+    "node-fetch": "2.6.7",
+    "data-uri-to-buffer": false,
+    "fetch-blob": false,
+    "formdata-polyfill": false
+  },
+  "installConfig": {
+    "pnp": false
   }
 }
