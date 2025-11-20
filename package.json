@@ -1,11 +1,11 @@
 {
   "name": "3ireborn-video-generator",
   "version": "1.0.0",
-  "description": "Video generator API with Express",
+  "description": "Fixed for Railway",
   "main": "index.js",
   "type": "commonjs",
   "engines": {
-    "node": ">=18.x"
+    "node": ">=18"
   },
   "scripts": {
     "start": "node index.js"
@@ -20,8 +20,5 @@
     "data-uri-to-buffer": false,
     "fetch-blob": false,
     "formdata-polyfill": false
-  },
-  "installConfig": {
-    "pnp": false
   }
 }
