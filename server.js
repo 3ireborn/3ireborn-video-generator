@@ -1,47 +1,55 @@
 import express from "express";
 import cors from "cors";
-import fetch from "node-fetch";
+import path from "path";
+import dotenv from "dotenv";
+import { fileURLToPath } from "url";
+
+dotenv.config();
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-const PORT = process.env.PORT || 3000;
+// FIX untuk __dirname (ESM)
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-// ROUTE TEST
+// Serve file STATIC di folder "public"
+app.use(express.static(path.join(__dirname, "public")));
+
+// Route utama → kirim index.html
 app.get("/", (req, res) => {
-  res.send("3IReborn Video Generator API is running 🚀");
+  res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
-// ROUTE GENERATE VIDEO
+// ====== API ENDPOINT UNTUK GENERATE VIDEO ======
 app.post("/generate", async (req, res) => {
   try {
-    const { prompt, duration, style, voice } = req.body;
+    const { mode, prompt, voice, duration } = req.body;
 
-    const response = await fetch("https://api.fal.ai/fal/pika/fast-video", {
+    // Contoh API call ke FAL / PIKA
+    const response = await fetch("https://fal.run/pika/video", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Key ${process.env.FAL_KEY}`
+        Authorization: `Key ${process.env.FAL_KEY}`,
       },
       body: JSON.stringify({
         prompt,
         duration,
-        style,
-        voice
-      })
+        voice,
+      }),
     });
 
-    const data = await response.json();
-    return res.json(data);
+    const result = await response.json();
+    res.json(result);
 
-  } catch (error) {
-    console.error("Generate error:", error);
-    return res.status(500).json({ error: error.message });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server error" });
   }
 });
 
-// START SERVER
-app.listen(PORT, () => {
-  console.log(`Server running on PORT ${PORT}`);
-});
+// PORT dari Railway
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT} 🚀`));
