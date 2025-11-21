@@ -1,25 +1,23 @@
 import express from "express";
-import cors from "cors";
 import path from "path";
 import { fileURLToPath } from "url";
-import dotenv from "dotenv";
-
-dotenv.config();
 
 const app = express();
-app.use(cors());
-app.use(express.json());
+const PORT = process.env.PORT || 8080;
 
+// Fix __dirname (karena ES Module)
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+// Serve file di folder public
 app.use(express.static(path.join(__dirname, "public")));
 
+// Route utama (supaya Railway tahu app ini hidup)
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
-const PORT = process.env.PORT || 8080;
+// KEEP SERVER ALIVE
 app.listen(PORT, () => {
-  console.log("Server running on port", PORT);
+  console.log("🔥 Server hidup di PORT:", PORT);
 });
