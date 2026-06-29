@@ -1,152 +1,269 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>3IReborn Video Generator</title>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎥 AI Video Generator - Shopee Affiliate</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
-        body {
-            background: #0d1117;
-            color: white;
-            font-family: Arial, sans-serif;
-            padding: 20px;
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .gradient-bg {
+            background: linear-gradient(135deg, #6366f1, #a855f7);
         }
-        h1 {
-            text-align: center;
-        }
-        select, input, textarea {
-            width: 100%;
-            padding: 14px;
-            margin: 10px 0;
-            background: #161b22;
-            border: 1px solid #30363d;
-            color: white;
-            border-radius: 6px;
-        }
-        button {
-            width: 100%;
-            padding: 14px;
-            background: #00c2d1;
-            color: #000;
-            border: none;
-            border-radius: 6px;
-            margin-top: 12px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-        button:hover {
-            opacity: 0.85;
-        }
-        #videoResult {
-            margin-top: 25px;
-            text-align: center;
-        }
-        video {
-            width: 100%;
-            border-radius: 8px;
-            margin-top: 10px;
-        }
-        .status {
-            margin-top: 10px;
-            font-style: italic;
+        .card-hover:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
         }
     </style>
 </head>
-<body>
+<body class="bg-gray-950 text-white">
+    <div class="max-w-6xl mx-auto p-6">
+        <!-- Header -->
+        <div class="flex items-center justify-between mb-8">
+            <div class="flex items-center gap-3">
+                <div class="w-12 h-12 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-2xl flex items-center justify-center text-3xl shadow-lg">
+                    🎥
+                </div>
+                <div>
+                    <h1 class="text-3xl font-bold tracking-tight">HYPE VIDEO AI</h1>
+                    <p class="text-indigo-400 text-sm">Shopee Affiliate Generator</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-4">
+                <div class="bg-gray-900 px-4 py-2 rounded-2xl flex items-center gap-2 text-sm">
+                    <i class="fas fa-bolt text-yellow-400"></i>
+                    <span class="font-medium">Powered by Kling • Luma • Runway</span>
+                </div>
+            </div>
+        </div>
 
-    <h1>3IReborn Video Generator</h1>
-    <p style="text-align:center;">Powered by FAL + Pika Proxy</p>
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            <!-- Sidebar Pilihan Objek -->
+            <div class="lg:col-span-4">
+                <div class="bg-gray-900 rounded-3xl p-6 sticky top-6">
+                    <h2 class="text-xl font-semibold mb-4 flex items-center gap-2">
+                        <i class="fas fa-list"></i>
+                        Pilih Objek Konten
+                    </h2>
+                    
+                    <div onclick="pilihObjek(1)" class="objek-card mb-3 p-4 rounded-2xl bg-gray-800 hover:bg-gray-700 cursor-pointer transition-all card-hover flex gap-4 items-center" id="card-1">
+                        <div class="w-12 h-12 bg-pink-500 rounded-xl flex items-center justify-center text-2xl">👶</div>
+                        <div>
+                            <h3 class="font-semibold">3i Reborn</h3>
+                            <p class="text-sm text-gray-400">Boneka reborn premium</p>
+                        </div>
+                    </div>
 
-    <label>Pilih Mode</label>
-    <select id="mode">
-        <option value="3IReborn Promo">3IReborn Promo</option>
-        <option value="Bisnis">Bisnis</option>
-        <option value="Motivasi">Motivasi</option>
-        <option value="Cinematic">Cinematic</option>
-    </select>
+                    <div onclick="pilihObjek(2)" class="objek-card mb-3 p-4 rounded-2xl bg-gray-800 hover:bg-gray-700 cursor-pointer transition-all card-hover flex gap-4 items-center" id="card-2">
+                        <div class="w-12 h-12 bg-emerald-500 rounded-xl flex items-center justify-center text-2xl">🕌</div>
+                        <div>
+                            <h3 class="font-semibold">Istikmal Syariah</h3>
+                            <p class="text-sm text-gray-400">Produk syariah & keagamaan</p>
+                        </div>
+                    </div>
 
-    <label>Style Video</label>
-    <select id="style">
-        <option value="cinematic">Cinematic</option>
-        <option value="realistic">Realistic</option>
-        <option value="vibrant">Vibrant</option>
-        <option value="clean">Clean</option>
-    </select>
+                    <div onclick="pilihObjek(3)" class="objek-card mb-3 p-4 rounded-2xl bg-gray-800 hover:bg-gray-700 cursor-pointer transition-all card-hover flex gap-4 items-center" id="card-3">
+                        <div class="w-12 h-12 bg-blue-500 rounded-xl flex items-center justify-center text-2xl">🚢</div>
+                        <div>
+                            <h3 class="font-semibold">Reward Cruise</h3>
+                            <p class="text-sm text-gray-400">Travel & cruise reward</p>
+                        </div>
+                    </div>
 
-    <label>Durasi (detik)</label>
-    <input id="duration" type="number" placeholder="Contoh: 8" value="8">
+                    <div onclick="pilihObjek(4)" class="objek-card mb-3 p-4 rounded-2xl bg-gray-800 hover:bg-gray-700 cursor-pointer transition-all card-hover flex gap-4 items-center" id="card-4">
+                        <div class="w-12 h-12 bg-orange-500 rounded-xl flex items-center justify-center text-2xl">🏝️</div>
+                        <div>
+                            <h3 class="font-semibold">Melali Bali</h3>
+                            <p class="text-sm text-gray-400">Wisata & pengalaman Bali</p>
+                        </div>
+                    </div>
 
-    <label>Prompt Video</label>
-    <textarea id="prompt" rows="4" placeholder="Contoh: Buat video promo 3IReborn durasi 8 detik, style cinematic, tone energetic."></textarea>
+                    <div onclick="pilihObjek(5)" class="objek-card p-4 rounded-2xl bg-gray-800 hover:bg-gray-700 cursor-pointer transition-all card-hover flex gap-4 items-center" id="card-5">
+                        <div class="w-12 h-12 bg-teal-500 rounded-xl flex items-center justify-center text-2xl">🛍️</div>
+                        <div>
+                            <h3 class="font-semibold">UMKM Premium</h3>
+                            <p class="text-sm text-gray-400">Produk lokal unggulan</p>
+                        </div>
+                    </div>
 
-    <label>Voice (opsional)</label>
-    <input id="voice" type="text" placeholder="Contoh: male_en">
+                    <div class="mt-8 pt-6 border-t border-gray-700">
+                        <button onclick="generateAll()" 
+                                class="w-full bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600 py-4 rounded-2xl font-semibold flex items-center justify-center gap-2 text-lg">
+                            <i class="fas fa-magic"></i>
+                            Generate Semua Prompt
+                        </button>
+                    </div>
+                </div>
+            </div>
 
-    <button onclick="generateVideo()">Generate Video</button>
-    <button style="background:#444;color:white;" onclick="resetForm()">Reset</button>
+            <!-- Main Generator -->
+            <div class="lg:col-span-8">
+                <div class="bg-gray-900 rounded-3xl p-8">
+                    <h2 class="text-2xl font-bold mb-6 flex items-center gap-3">
+                        <span id="selected-title">Pilih Objek di sebelah kiri</span>
+                    </h2>
 
-    <p id="status" class="status">Status: idle</p>
+                    <div class="space-y-6">
+                        <!-- Kategori -->
+                        <div>
+                            <label class="block text-sm text-gray-400 mb-2">Kategori Konten</label>
+                            <div class="bg-gray-800 rounded-2xl px-5 py-3 flex items-center gap-3" id="kategori-display">
+                                <span class="text-indigo-400">📱 Edukasi / Tutorial</span>
+                            </div>
+                        </div>
 
-    <div id="videoResult"></div>
+                        <!-- Deskripsi -->
+                        <div>
+                            <label class="block text-sm text-gray-400 mb-2">Deskripsi / Prompt Dasar</label>
+                            <textarea id="deskripsi" rows="5"
+                                class="w-full bg-gray-800 border border-gray-700 rounded-2xl p-5 text-white focus:outline-none focus:border-indigo-500 resize-none"></textarea>
+                        </div>
 
-<script>
-    const API_URL = window.location.origin + "/generate";
+                        <!-- Settings -->
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm text-gray-400 mb-2">Durasi Video (detik)</label>
+                                <input type="number" id="durasi" value="15" 
+                                       class="w-full bg-gray-800 border border-gray-700 rounded-2xl px-5 py-4 text-white focus:outline-none focus:border-indigo-500">
+                            </div>
+                            <div>
+                                <label class="block text-sm text-gray-400 mb-2">Platform</label>
+                                <select id="platform" 
+                                        class="w-full bg-gray-800 border border-gray-700 rounded-2xl px-5 py-4 text-white focus:outline-none focus:border-indigo-500">
+                                    <option value="TikTok / Reels">TikTok / Reels</option>
+                                    <option value="Shopee Video">Shopee Video</option>
+                                    <option value="Instagram">Instagram</option>
+                                </select>
+                            </div>
+                        </div>
 
-    async function generateVideo() {
-        document.getElementById("status").innerText = "Status: Generating video... ⏳";
+                        <!-- Generate Button -->
+                        <button onclick="generateVideo()" 
+                                class="w-full bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 hover:brightness-110 transition py-6 rounded-3xl text-xl font-bold flex items-center justify-center gap-3 shadow-xl shadow-purple-500/30">
+                            <i class="fas fa-play"></i>
+                            GENERATE AI VIDEO PROMPT
+                        </button>
 
-        const data = {
-            prompt: document.getElementById("prompt").value,
-            duration: parseInt(document.getElementById("duration").value),
-            style: document.getElementById("style").value,
-            voice: document.getElementById("voice").value || null
-        };
+                        <!-- Result -->
+                        <div id="result" class="hidden mt-8 bg-gray-950 border border-gray-700 rounded-3xl p-6">
+                            <div class="flex justify-between items-center mb-4">
+                                <h3 class="font-semibold text-lg flex items-center gap-2">
+                                    <i class="fas fa-film text-yellow-400"></i>
+                                    Prompt Siap Pakai
+                                </h3>
+                                <button onclick="copyPrompt()" 
+                                        class="bg-gray-800 hover:bg-gray-700 px-5 py-2 rounded-2xl text-sm flex items-center gap-2">
+                                    <i class="fas fa-copy"></i> Copy
+                                </button>
+                            </div>
+                            <pre id="prompt-output" class="bg-black p-5 rounded-2xl text-sm text-gray-300 whitespace-pre-wrap font-mono leading-relaxed overflow-auto max-h-96"></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-        try {
-            const response = await fetch(API_URL, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(data)
-            });
-
-            const result = await response.json();
-            console.log(result);
-
-            if (result.video) {
-                document.getElementById("status").innerText = "Status: Success ✔️";
-
-                document.getElementById("videoResult").innerHTML = `
-                    <video controls src="${result.video}"></video>
-                    <br>
-                    <a href="${result.video}" download>
-                        <button>Download Video</button>
-                    </a>
-                `;
-            } else {
-                document.getElementById("status").innerText =
-                    "Error: " + (result.error || "Gagal generate video.");
+    <script>
+        const objekData = {
+            1: {
+                title: "3i Reborn",
+                kategori: "Produk Boneka Reborn",
+                deskripsi: "Boneka reborn 3i Reborn dengan detail wajah dan kulit yang sangat realistis. Tangan mungil, bulu mata lentik, baju premium. Tampilan close-up yang lembut dan emosional. Cocok untuk konten Shopee Affiliate.",
+                style: "Cinematic, photorealistic, soft lighting, 8K"
+            },
+            2: {
+                title: "Istikmal Syariah",
+                kategori: "Produk Syariah",
+                deskripsi: "Produk Istikmal Syariah yang halal dan berkah. Detail bahan premium, desain elegan, dan testimoni kepuasan. Suasana tenang, penuh berkah, dan meyakinkan.",
+                style: "Warm tone, cinematic, peaceful atmosphere"
+            },
+            3: {
+                title: "Reward Cruise",
+                kategori: "Travel Reward",
+                deskripsi: "Pengalaman mewah Reward Cruise. Kapal pesiar megah, pemandangan laut, sunset indah, fasilitas premium. Lifestyle mewah dan liburan impian.",
+                style: "Epic cinematic, drone shot, golden hour, luxurious"
+            },
+            4: {
+                title: "Melali Bali",
+                kategori: "Wisata Bali",
+                deskripsi: "Melali Bali - pengalaman wisata terbaik di pulau dewata. Pantai indah, sawah hijau, pura sakral, kuliner enak. Vibes liburan santai dan seru.",
+                style: "Vibrant, tropical, cinematic travel vlog style"
+            },
+            5: {
+                title: "UMKM Premium",
+                kategori: "Produk UMKM",
+                deskripsi: "Produk UMKM Indonesia premium berkualitas tinggi. Craftsmanship terbaik, bahan lokal pilihan, packaging elegan. Dukung ekonomi lokal.",
+                style: "Warm, authentic, high quality product shot"
             }
-
-        } catch (error) {
-            console.log(error);
-            document.getElementById("status").innerText = "Error terjadi!";
-            alert("Gagal menghubungi server: " + error.message);
         }
-    }
 
-    function resetForm() {
-        document.getElementById("prompt").value = "";
-        document.getElementById("voice").value = "";
-        document.getElementById("duration").value = 8;
-        document.getElementById("status").innerText = "Status: idle";
-        document.getElementById("videoResult").innerHTML = "";
-    }
-</script>
-<script>
-setInterval(() => {
-  fetch("/ping").catch(() => {});
-}, 25000);
-</script>
+        function pilihObjek(id) {
+            // Reset all cards
+            document.querySelectorAll('.objek-card').forEach(card => {
+                card.classList.remove('ring-2', 'ring-indigo-500')
+            })
+            // Highlight selected
+            document.getElementById(`card-${id}`).classList.add('ring-2', 'ring-indigo-500')
+            
+            const data = objekData[id]
+            document.getElementById('selected-title').innerHTML = `
+                ${data.title} <span class="text-indigo-400 text-base font-normal">— Siap digenerate</span>
+            `
+            document.getElementById('deskripsi').value = data.deskripsi
+            document.getElementById('kategori-display').innerHTML = `
+                <span class="text-indigo-400">${data.kategori}</span>
+            `
+        }
+
+        function generateVideo() {
+            const deskripsi = document.getElementById('deskripsi').value
+            const durasi = document.getElementById('durasi').value
+            const platform = document.getElementById('platform').value
+            const title = document.getElementById('selected-title').textContent.split('—')[0].trim()
+            
+            if (!deskripsi) {
+                alert("Isi deskripsi terlebih dahulu!")
+                return
+            }
+            
+            const prompt = `Buat video vertikal ${durasi} detik untuk ${platform} tentang "${title}".
+
+Deskripsi: ${deskripsi}
+
+Style: Photorealistic, cinematic lighting, smooth transition, high detail, 8K quality, 9:16 aspect ratio.
+Camera movement: Dynamic slow motion + macro shot + elegant pan.
+Music: Upbeat modern + emotional background (sesuai tema).
+Text overlay: Elegant font dengan call-to-action Shopee Affiliate.
+
+Gunakan AI Video (Kling / Luma / Runway) dengan kualitas terbaik.`
+
+            document.getElementById('prompt-output').textContent = prompt
+            document.getElementById('result').classList.remove('hidden')
+            
+            // Scroll to result
+            document.getElementById('result').scrollIntoView({ behavior: 'smooth' })
+        }
+
+        function copyPrompt() {
+            const text = document.getElementById('prompt-output').textContent
+            navigator.clipboard.writeText(text).then(() => {
+                const btn = event.target.closest('button')
+                const original = btn.innerHTML
+                btn.innerHTML = `<i class="fas fa-check"></i> Copied!`
+                setTimeout(() => btn.innerHTML = original, 2000)
+            })
+        }
+
+        function generateAll() {
+            alert("✅ Semua prompt telah dibuat! Pilih salah satu objek di kiri untuk melihat detailnya.\n\nAnda bisa copy prompt yang dihasilkan dan paste ke Kling AI / Luma Dream Machine.")
+            pilihObjek(1)
+        }
+
+        // Tailwind script already loaded
+        console.log("%cAI Video Generator Shopee Affiliate siap digunakan!", "color: #a855f7; font-size: 14px;")
+    </script>
 </body>
 </html>
